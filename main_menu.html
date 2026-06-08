@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выпуск 2026 — Памятный альбом</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 50%, #11998e 100%);
+            background-size: cover;
+            background-attachment: fixed;
+            color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative; /* Для позиционирования подписи в углу экрана */
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #6a11cb, #11998e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Стильный серый цвет в правом нижнем углу */
+        .personalized-text {
+            position: fixed;
+            bottom: 25px;
+            right: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.65); /* Полупрозрачный серый/белый */
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Чтобы текст читался на любом фоне */
+            display: none; /* Проявляется только через JS */
+            z-index: 10;
+        }
+
+        .loading-container {
+            margin: 25px auto 40px auto;
+            width: 90%;
+        }
+
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .loading-bar {
+            flex-grow: 1;
+            height: 26px;
+            border: 2px solid #6a11cb;
+            border-radius: 13px;
+            padding: 2px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+        }
+
+        .loading-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #6a11cb, #11998e);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inner-loading-text {
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .percent-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #4a148c;
+            white-space: nowrap;
+        }
+
+        .loading-info-status {
+            text-align: left;
+            margin-top: 8px;
+            padding-left: 5px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #4a4a4a;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 65px;
+            text-decoration: none;
+            color: #4a148c;
+            border: 2px solid #6a11cb;
+            border-radius: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            background: #ffffff;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .menu-btn:hover {
+            color: #ffffff;
+            background: linear-gradient(45deg, #6a11cb, #11998e);
+            border-color: transparent;
+            cursor: pointer;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.3);
+        }
+
+        @media (max-width: 500px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .container {
+                padding: 30px 20px;
+            }
+            .personalized-text {
+                bottom: 15px;
+                right: 20px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>ВЫПУСК 2026</h1>
+        
+        <div class="loading-container">
+            <div class="progress-row">
+                <div class="loading-bar">
+                    <div class="loading-fill">
+                        <span class="inner-loading-text">ЗАГРУЗКА...</span>
+                    </div>
+                </div>
+                <span class="percent-text">100%</span>
+            </div>
+            <div class="loading-info-status">
+                <span>Школа окончена. Начало взрослой жизни.</span>
+            </div>
+        </div>
+
+        <div class="menu-grid">
+            <a href="class/class.html" class="menu-btn">Наш класс</a>
+            <a href="photos/photos.html" class="menu-btn">Фотоархив</a>
+            <a href="videos/videos.html" class="menu-btn">Видео</a>
+            <a href="wishes/wishes.html" class="menu-btn">Пожелания</a>
+        </div>
+    </div>
+
+    <!-- Элемент подписи -->
+    <div id="personal-gift-tag" class="personalized-text"></div>
+
+    <!-- Чтение файла config.js -->
+    <script src="config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof CONFIG !== 'undefined' && CONFIG.userName && CONFIG.userName.trim() !== "") {
+                const tag = document.getElementById('personal-gift-tag');
+                tag.innerText = "Специально для " + CONFIG.userName;
+                tag.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>

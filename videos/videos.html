@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выпуск 2026 — Видеогалерея</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 50%, #11998e 100%);
+            background-size: cover;
+            background-attachment: fixed;
+            color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            max-width: 700px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin: 0 0 20px 0;
+            background: linear-gradient(45deg, #6a11cb, #11998e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .content-area {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            min-height: 150px;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .placeholder-text {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 30px;
+            text-decoration: none;
+            color: #4a148c;
+            border: 2px solid #6a11cb;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #ffffff;
+            background: linear-gradient(45deg, #6a11cb, #11998e);
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Видеогалерея</h1>
+        
+        <div class="content-area">
+            
+            <div style="margin-bottom: 30px;">
+    <h3 style="color:#4a148c; margin-bottom:10px;">Наш последний звонок</h3>
+    <video controls width="100%" style="border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+        <source src="vypusknoy.mp4" type="video/mp4">
+        Ваш браузер не поддерживает встроенное видео.
+    </video>
+</div>
+
+        <a href="../main_menu.html" class="back-btn">← Назад в меню</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(function(video) {
+                video.addEventListener('play', function() {
+                    window.parent.postMessage('pauseMusic', '*');
+                });
+                video.addEventListener('pause', function() {
+                    window.parent.postMessage('playMusic', '*');
+                });
+                video.addEventListener('ended', function() {
+                    window.parent.postMessage('playMusic', '*');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

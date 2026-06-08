@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выпуск 2026 — Памятный альбом</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: #111;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Кнопка Mute на самом верхнем уровне поверх iframe */
+        .audio-control-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .mute-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 2px solid #6a11cb;
+            border-radius: 30px;
+            color: #4a148c;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .mute-btn:hover {
+            transform: scale(1.05);
+            background: #ffffff;
+        }
+
+        .mute-btn.muted {
+            background: #e0e0e0;
+            border-color: #757575;
+            color: #616161;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Единый плеер музыки на весь сайт -->
+    <audio id="bg-music" src="music.mp3" loop></audio>
+    <div class="audio-control-container">
+        <button id="mute-btn" class="mute-btn">🔇 Заглушить</button>
+    </div>
+
+    <!-- Здесь будут меняться страницы, а музыка сверху не прервется -->
+    <iframe src="main_menu.html" id="content-frame"></iframe>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('bg-music');
+            const muteBtn = document.getElementById('mute-btn');
+            const iframe = document.getElementById('content-frame');
+            
+            // Состояние звука
+            const isMuted = localStorage.getItem('musicMuted') === 'true';
+            audio.muted = isMuted;
+            
+            if (isMuted) {
+                muteBtn.classList.add('muted');
+                muteBtn.innerHTML = '🎵 Включить звук';
+            }
+
+            function startMusic() {
+                audio.play().catch(err => console.log("Ждем первого клика для музыки"));
+            }
+
+            // Запускаем при клике на саму рамку или внутри iframe
+            document.body.addEventListener('click', startMusic, { once: true });
+            iframe.addEventListener('load', function() {
+                try {
+                    iframe.contentWindow.document.body.addEventListener('click', startMusic, { once: true });
+                } catch(e) {
+                    // На случай блокировки политик, если открыто как-то иначе
+                }
+            });
+
+            muteBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const currentState = audio.muted;
+                audio.muted = !currentState;
+                localStorage.setItem('musicMuted', !currentState);
+                if (!currentState) {
+                    muteBtn.classList.add('muted');
+                    muteBtn.innerHTML = '🎵 Включить звук';
+                } else {
+                    muteBtn.classList.remove('muted');
+                    muteBtn.innerHTML = '🔇 Заглушить';
+                    audio.play();
+                }
+            });
+
+            // Функция управления музыкой изнутри iframe (для видео страниц)
+            window.addEventListener('message', function(event) {
+                if (event.data === 'pauseMusic') {
+                    audio.pause();
+                } else if (event.data === 'playMusic') {
+                    if (localStorage.getItem('musicMuted') !== 'true') {
+                        audio.play();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
